@@ -18,6 +18,11 @@ const CreateAccount = ({ setWallet, setSeedPhrase }) => {
   function setWalletAndMnemonic() {
     setSeedPhrase(newSeedPhrase);
     setWallet(ethers.Wallet.fromPhrase(newSeedPhrase).address);
+    localStorage.setItem(
+      "wallet",
+      ethers.Wallet.fromPhrase(newSeedPhrase).address
+    );
+    localStorage.setItem("seedPhrase", newSeedPhrase);
   }
 
   return (

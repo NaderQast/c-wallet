@@ -16,6 +16,8 @@ import logo from "../noImg.png";
 import axios from "axios";
 import { CHAINS_CONFIG } from "../chain";
 import { ethers } from "ethers";
+import { FaRegCopy } from "react-icons/fa";
+import copy from "copy-to-clipboard";
 
 const WalletView = ({
   wallet,
@@ -32,9 +34,15 @@ const WalletView = ({
   const [sendToAddress, setSendToAddress] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [hash, setHash] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const navigate = useNavigate();
 
+  const handleCopy = () => {
+    copy(wallet);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500); // auto-hide after 1.5s
+  };
   const items = [
     {
       key: "3",
@@ -239,6 +247,8 @@ const WalletView = ({
     setNfts(null);
     setTokens(null);
     setBalance(0);
+    localStorage.removeItem("wallet");
+    localStorage.removeItem("seedPhrase");
     navigate("/");
   }
 
@@ -258,19 +268,49 @@ const WalletView = ({
     getAccountTokens();
   }, [selectedChain]);
 
+  // return (
+  //   <>
+  //     <div className="content">
+  //       <div className="logoutButton" onClick={logout}>
+  //         <LogoutOutlined />
+  //       </div>
+  //       <div className="walletName">Wallet</div>
+  //       <Tooltip title={wallet}>
+  //         <div>
+  //           {wallet.slice(0, 4)}...{wallet.slice(38)}
+  //         </div>
+  //       </Tooltip>
+  //       <Divider />
+  //       {fetching ? (
+  //         <Spin />
+  //       ) : (
+  //         <Tabs defaultActiveKey="1" items={items} className="walletView" />
+  //       )}
+  //     </div>
+  //   </>
+  // );
+
   return (
     <>
       <div className="content">
         <div className="logoutButton" onClick={logout}>
           <LogoutOutlined />
         </div>
+
         <div className="walletName">Wallet</div>
-        <Tooltip title={wallet}>
-          <div>
-            {wallet.slice(0, 4)}...{wallet.slice(38)}
-          </div>
-        </Tooltip>
+
+        <div className="walletAddressRow">
+          <Tooltip title={wallet}>
+            <span className="walletAddressText">
+              {wallet.slice(0, 6)}...{wallet.slice(-4)}
+            </span>
+          </Tooltip>
+          <FaRegCopy className="copyIcon" onClick={handleCopy} />
+          {copied && <span className="copiedText">Copied!</span>}
+        </div>
+
         <Divider />
+
         {fetching ? (
           <Spin />
         ) : (

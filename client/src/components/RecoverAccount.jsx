@@ -27,6 +27,8 @@ function RecoverAccount({ setWallet, setSeedPhrase }) {
     }
     setSeedPhrase(typedSeed);
     setWallet(recoveredWallet.address);
+    localStorage.setItem("wallet", recoveredWallet.address);
+    localStorage.setItem("seedPhrase", typedSeed);
     navigate("/yourwallet");
     return;
   }

@@ -144,3 +144,26 @@ header {
   object-fit: cover;
   border-radius: 10px;
 }
+.walletAddressRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.walletAddressText {
+  font-family: monospace;
+  color: #333;
+}
+
+.copyIcon {
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.copyIcon:hover {
+  color: #000;
+}

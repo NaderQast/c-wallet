@@ -2,10 +2,12 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 import cwallet from "../logo_2.svg";
 
-import { Button } from "antd";
+import { Button, Modal } from "antd";
+import { useState } from "react";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
       <div className="content">
@@ -19,6 +21,13 @@ const Home = () => {
         >
           Create A Wallet
         </Button>
+        {/* <Button
+          onClick={() => setIsModalOpen(true)}
+          className="frontPageButton"
+          type="primary"
+        >
+          Connect Wallet
+        </Button> */}
         <Button
           onClick={() => navigate("/recover")}
           className="frontPageButton"
@@ -32,6 +41,31 @@ const Home = () => {
             money.moralis.io
           </a>
         </p>
+        <Modal
+          title="Connect Wallet"
+          open={isModalOpen}
+          onCancel={() => setIsModalOpen(false)}
+          footer={null}
+        >
+          <Button
+            type="primary"
+            onClick={() => {
+              setIsModalOpen(false);
+              navigate("/yourwallet");
+            }}
+          >
+            Create New Wallet
+          </Button>
+          <Button
+            style={{ marginTop: 10 }}
+            onClick={() => {
+              setIsModalOpen(false);
+              navigate("/recover");
+            }}
+          >
+            Sign In With Seed Phrase
+          </Button>
+        </Modal>
       </div>
     </>
   );
